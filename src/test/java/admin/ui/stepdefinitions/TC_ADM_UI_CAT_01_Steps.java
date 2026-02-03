@@ -2,7 +2,7 @@ package admin.ui.stepdefinitions;
 
 import admin.ui.pages.CategoryListPage;
 import admin.ui.pages.LoginPage;
-import admin.ui.utils.DriverFactory;
+import common.utils.DriverFactory;
 import io.cucumber.java.en.*;
 import org.junit.Assert;
 

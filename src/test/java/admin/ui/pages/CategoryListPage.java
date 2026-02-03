@@ -1,6 +1,6 @@
 package admin.ui.pages;
 
-import admin.ui.utils.DriverFactory;
+import common.utils.DriverFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;

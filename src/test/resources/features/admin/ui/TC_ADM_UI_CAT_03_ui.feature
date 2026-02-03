@@ -1,5 +1,6 @@
 Feature: Admin Sub Category Management
 
+  @Admin
   @TC_ADM_UI_CAT_03
   Scenario: Verify adding a sub category as Admin
     Given Admin is logged into the system

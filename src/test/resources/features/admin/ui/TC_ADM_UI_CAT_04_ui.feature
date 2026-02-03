@@ -1,5 +1,6 @@
 Feature: Admin Category Validation - Minimum Length
 
+  @Admin
   @TC_ADM_UI_CAT_04
   Scenario: Verify validation error persists on attempt to submit with short name
     Given Admin is logged into the system

@@ -1,5 +1,6 @@
 Feature: Admin Category Validation - Maximum Length
 
+  @Admin
   @TC_ADM_UI_CAT_05
   Scenario: Verify validation error for category name longer than 10 characters
     Given Admin is logged into the system

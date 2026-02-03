@@ -1,6 +1,6 @@
 package admin.ui.stepdefinitions;
 
-import admin.ui.utils.DriverFactory;
+import common.utils.DriverFactory;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 
