@@ -5,6 +5,6 @@ Feature: Admin Category Management
   Scenario: Verify adding a new main category as Admin
     Given Admin is logged into the system
     When Admin navigates to add category page
-    And Admin enters a valid category name "GHI"
+    And Admin enters a valid category name "MNO13"
     And Admin clicks save button
     Then Category should be created successfully

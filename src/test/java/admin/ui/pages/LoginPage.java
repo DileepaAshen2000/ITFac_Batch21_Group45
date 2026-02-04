@@ -21,6 +21,7 @@ public class LoginPage {
 
     public void openLoginPage() {
         driver.get("http://localhost:8008/ui/login");
+        wait.until(ExpectedConditions.urlContains("/ui/login"));
     }
 
     public void loginAsAdmin(String username, String password) {
@@ -36,8 +37,16 @@ public class LoginPage {
                 wait.until(ExpectedConditions.elementToBeClickable(
                         By.cssSelector("button[type='submit']")));
 
+        usernameField.clear();
         usernameField.sendKeys(username);
+
+        passwordField.clear();
         passwordField.sendKeys(password);
+
         loginButton.click();
+    }
+
+    public boolean isLoginSuccessful() {
+        return wait.until(ExpectedConditions.urlContains("/ui"));
     }
 }

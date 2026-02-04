@@ -14,7 +14,6 @@ public class TC_ADM_UI_CAT_05_Steps {
     public void admin_navigates_to_add_category_page_for_max_length_validation() {
         categoryListPage.navigateToCategoryList();
         categoryListPage.clickAddCategory();
-
         Assert.assertTrue(addCategoryPage.isAddCategoryPageDisplayed());
     }
 

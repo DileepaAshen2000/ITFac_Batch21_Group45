@@ -6,7 +6,7 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = "src/test/resources/features/admin",
+        features = "src/test/resources/features/admin/ui",
         glue = {
                 "admin.ui.stepdefinitions",
                 "admin.ui.hooks"

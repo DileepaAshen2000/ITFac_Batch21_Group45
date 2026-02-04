@@ -11,7 +11,7 @@ import io.cucumber.junit.CucumberOptions;
                 "user.ui.stepdefinitions",
                 "user.ui.hooks"
         },
-        tags = "@TC_USER_UI_CAT_01",
+//        tags = "@TC_USER_UI_CAT_01",
         plugin = {
                 "pretty",
                 "html:target/user-ui-report.html"
