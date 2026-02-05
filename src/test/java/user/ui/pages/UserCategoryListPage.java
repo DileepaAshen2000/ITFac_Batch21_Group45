@@ -24,7 +24,7 @@ public class UserCategoryListPage {
             By.xpath("//table/tbody/tr/td[1]");
 
     private By addCategoryButton =
-            By.xpath("//a[contains(text(),'Add A Category')]");
+            By.xpath("//a[contains(text(),'Add')]");
 
     private By editButtons =
             By.cssSelector("a[title='Edit'], a[tittle='Edit']");
@@ -44,8 +44,9 @@ public class UserCategoryListPage {
     private By paginationContainer =
             By.cssSelector("ul.pagination");
 
+
     private By noCategoryMessage =
-            By.xpath("//table/tbody/tr/td[@colspan='4' and contains(@class, 'text-center')]");
+            By.xpath("//*[contains(text(),'No category') or contains(text(),'No data')]");
 
     private By tableBody =
             By.xpath("//table/tbody");
@@ -58,7 +59,7 @@ public class UserCategoryListPage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    // ========== BASIC METHODS (for TC_01 sorting) ==========
+    // ========= SORTING =========
 
     public void clickIdHeader() {
         wait.until(ExpectedConditions.elementToBeClickable(idHeader))
@@ -74,28 +75,23 @@ public class UserCategoryListPage {
         for (WebElement cell : cells) {
             try {
                 ids.add(Integer.parseInt(cell.getText().trim()));
-            } catch (NumberFormatException e) {
-                // Skip non-numeric cells (like empty message)
-                continue;
+            } catch (NumberFormatException ignored) {
             }
         }
         return ids;
     }
 
-    // ========== ADD CATEGORY BUTTON (for TC_02) ==========
+    // ========= ADD BUTTON =========
 
     public boolean isAddCategoryButtonVisible() {
         return !driver.findElements(addCategoryButton).isEmpty();
     }
 
-    // ========== EDIT/DELETE BUTTONS (for TC_03) ==========
+    // ========= EDIT / DELETE =========
 
     public boolean hasEnabledEditButtons() {
-        List<WebElement> editBtns = driver.findElements(editButtons);
-
-        for (WebElement btn : editBtns) {
-            String disabledAttr = btn.getAttribute("disabled");
-            if (disabledAttr == null || disabledAttr.isEmpty()) {
+        for (WebElement btn : driver.findElements(editButtons)) {
+            if (btn.getAttribute("disabled") == null) {
                 return true;
             }
         }
@@ -103,102 +99,46 @@ public class UserCategoryListPage {
     }
 
     public boolean hasEnabledDeleteButtons() {
-        List<WebElement> deleteBtns = driver.findElements(deleteButtons);
-
-        for (WebElement btn : deleteBtns) {
-            String disabledAttr = btn.getAttribute("disabled");
-            if (disabledAttr == null || disabledAttr.isEmpty()) {
+        for (WebElement btn : driver.findElements(deleteButtons)) {
+            if (btn.getAttribute("disabled") == null) {
                 return true;
             }
         }
         return false;
     }
 
-    // ========== PAGINATION METHODS (for TC_04) ==========
+    // ========= PAGINATION =========
 
     public void clickNextButton() {
         WebElement next = wait.until(ExpectedConditions.elementToBeClickable(nextButton));
-
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", next);
-
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            next.click();
-        } catch (Exception e) {
-            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", next);
-        }
-
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", next);
         wait.until(ExpectedConditions.presenceOfElementLocated(tableBody));
     }
 
     public void clickPreviousButton() {
-        WebElement previous = wait.until(ExpectedConditions.elementToBeClickable(previousButton));
-
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", previous);
-
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            previous.click();
-        } catch (Exception e) {
-            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", previous);
-        }
-
+        WebElement prev = wait.until(ExpectedConditions.elementToBeClickable(previousButton));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", prev);
         wait.until(ExpectedConditions.presenceOfElementLocated(tableBody));
     }
 
     public int getCurrentPageNumber() {
-        WebElement activePageElement = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(activePage)
+        return Integer.parseInt(
+                wait.until(ExpectedConditions.visibilityOfElementLocated(activePage))
+                        .getText().trim()
         );
-        String pageText = activePageElement.getText().trim();
-        return Integer.parseInt(pageText);
     }
 
     public boolean isPaginationVisible() {
         return !driver.findElements(paginationContainer).isEmpty();
     }
 
-    public boolean isNextButtonEnabled() {
-        List<WebElement> nextButtons = driver.findElements(nextButton);
-        if (nextButtons.isEmpty()) {
-            return false;
-        }
-
-        WebElement nextLi = nextButtons.get(0).findElement(By.xpath(".."));
-        String liClass = nextLi.getAttribute("class");
-
-        return !liClass.contains("disabled");
-    }
-
-    public boolean isPreviousButtonEnabled() {
-        List<WebElement> prevButtons = driver.findElements(previousButton);
-        if (prevButtons.isEmpty()) {
-            return false;
-        }
-
-        WebElement prevLi = prevButtons.get(0).findElement(By.xpath(".."));
-        String liClass = prevLi.getAttribute("class");
-
-        return !liClass.contains("disabled");
-    }
-
-    // ========== EMPTY STATE METHODS (for TC_05) ==========
+    // ========= EMPTY STATE =========
 
     public boolean isNoCategoryMessageDisplayed() {
         try {
-            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(5));
-            shortWait.until(ExpectedConditions.visibilityOfElementLocated(noCategoryMessage));
-            return true;
+            return wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(noCategoryMessage)
+            ).isDisplayed();
         } catch (Exception e) {
             return false;
         }
@@ -206,19 +146,13 @@ public class UserCategoryListPage {
 
     public String getNoCategoryMessageText() {
         try {
-            WebElement messageElement = driver.findElement(noCategoryMessage);
-            return messageElement.getText().trim();
+            return driver.findElement(noCategoryMessage).getText().trim();
         } catch (Exception e) {
             return "";
         }
     }
 
     public boolean hasTableRows() {
-        List<WebElement> dataRows = driver.findElements(categoryDataRows);
-        return !dataRows.isEmpty();
-    }
-
-    public boolean isTableBodyPresent() {
-        return !driver.findElements(tableBody).isEmpty();
+        return !driver.findElements(categoryDataRows).isEmpty();
     }
 }
