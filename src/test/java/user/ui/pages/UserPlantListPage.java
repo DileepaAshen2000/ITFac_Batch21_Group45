@@ -63,16 +63,19 @@ import org.openqa.selenium.support.ui.*;
 
 import java.time.Duration;
 import java.util.*;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public class UserPlantListPage {
 
     private final WebDriver driver;
     private final WebDriverWait wait;
+    private final String baseUrl;
 
     public UserPlantListPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(12));
+        this.baseUrl = System.getProperty("baseUrl", "http://localhost:8008");
     }
 
     private final By plantsSideMenu = By.xpath("//a[normalize-space()='Plants' or .//*[contains(.,'Plants')]]");
@@ -91,6 +94,17 @@ public class UserPlantListPage {
     // Pagination - best effort
     private final By nextPage = By.cssSelector("ul.pagination li.page-item:not(.disabled) a.page-link[aria-label='Next'], ul.pagination li.page-item:not(.disabled) a.page-link");
 
+    private By table = By.cssSelector("table.table.table-striped.table-bordered.align-middle");
+    private By rows = By.cssSelector("table.table.table-striped.table-bordered.align-middle tbody tr");
+
+
+    private By categorySelect = By.cssSelector("select");
+
+    // Things that should NOT exist for User
+    private By addPlantLink = By.xpath("//a[contains(normalize-space(),'Add') and contains(normalize-space(),'Plant')]");
+    private By editLinks = By.cssSelector("a[title='Edit']");
+    private By deleteButtons = By.cssSelector("button[title='Delete'], .btn-outline-danger");
+
     public void goToPlantsPage() {
         if (driver.getCurrentUrl() == null || !driver.getCurrentUrl().contains("/ui/plants")) {
             wait.until(ExpectedConditions.elementToBeClickable(plantsSideMenu)).click();
@@ -101,6 +115,65 @@ public class UserPlantListPage {
     public void waitForTable() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(plantsTable));
     }
+
+    public boolean isTableDisplayed() {
+        try {
+            return driver.findElement(table).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+//    public boolean isAddPlantVisible() {
+//        try {
+//            return driver.findElement(addPlantLink).isDisplayed();
+//        } catch (NoSuchElementException e) {
+//            return false;
+//        }
+//    }
+public boolean isAddPlantVisible() {
+    By addPlantBtn = By.xpath("//a[contains(normalize-space(),'Add') and contains(normalize-space(),'Plant')]");
+
+    // ✅ safest way: findElements never throws NoSuchElementException
+    List<WebElement> els = driver.findElements(addPlantBtn);
+
+    if (els.isEmpty()) return false;      // not present -> NOT visible
+    return els.get(0).isDisplayed();      // present -> check visible
+}
+
+
+    public boolean areEditDeleteVisible() {
+        // If any edit/delete exists -> true (should be false for user)
+        return !driver.findElements(editLinks).isEmpty() || !driver.findElements(deleteButtons).isEmpty();
+    }
+
+    public void setSearchKeyword(String keyword) {
+        WebElement el = wait.until(ExpectedConditions.visibilityOfElementLocated(searchInput));
+        el.clear();
+        el.sendKeys(keyword);
+    }
+
+    public void clickSearch() {
+        WebElement el = wait.until(ExpectedConditions.elementToBeClickable(searchBtn));
+        el.click();
+        waitForTable();
+    }
+
+
+    public void selectCategoryFilterByVisibleText(String text) {
+        WebElement selectEl = wait.until(ExpectedConditions.visibilityOfElementLocated(categorySelect));
+        new Select(selectEl).selectByVisibleText(text);
+    }
+
+    public List<String> getAllCategoryFilterOptions() {
+        WebElement selectEl = wait.until(ExpectedConditions.visibilityOfElementLocated(categorySelect));
+        Select sel = new Select(selectEl);
+        List<String> list = new ArrayList<>();
+        sel.getOptions().forEach(o -> list.add(o.getText().trim()));
+        return list;
+    }
+
+
 
     public void clickSortByName() {
         wait.until(ExpectedConditions.elementToBeClickable(nameHeader)).click();
