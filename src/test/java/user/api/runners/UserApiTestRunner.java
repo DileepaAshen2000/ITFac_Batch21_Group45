@@ -7,11 +7,14 @@ import io.cucumber.junit.CucumberOptions;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "src/test/resources/features/user/api",
-        glue = "user.api.stepdefinitions",
-        plugin = {
-                "pretty",
-                "html:target/user-api-report.html"
-        },
+//        glue = "user.api.stepdefinitions",
+        glue = {"user.api.stepdefinitions", "common.utils"},
+        tags = "@UserApi and not @ignore",
+//        plugin = {
+//                "pretty",
+//                "html:target/user-api-report.html"
+//        },
+        plugin = {"pretty", "html:target/cucumber-reports/user-api.html"},
         monochrome = true
 )
 public class UserApiTestRunner {
