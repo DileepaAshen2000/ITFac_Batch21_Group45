@@ -13,14 +13,35 @@ public class CategoryListPage {
     WebDriver driver = DriverFactory.getDriver();
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-    // REAL locator from inspect
-    private By addCategoryBtn =
-            By.xpath("//a[contains(text(),'Add A Category')]");
+    // ================== COMMON LOCATORS ==================
 
     private By categoryTable = By.tagName("table");
 
+    private By addCategoryBtn =
+            By.xpath("//a[contains(text(),'Add A Category')]");
+
+    // ================== EDIT CATEGORY (CAT_06) ==================
+
+    private By firstEditIcon =
+            By.xpath("//table/tbody/tr[1]//a[contains(@href,'edit')]");
+
+    private By categoryNameInput =
+            By.id("name");
+
+    private By saveButton =
+            By.xpath("//button[contains(text(),'Save')]");
+
+    // ================== NAVIGATION ==================
+
     public void navigateToCategoryList() {
         driver.get("http://localhost:8008/ui/categories");
+    }
+
+    // ================== COMMON ACTIONS ==================
+
+    public boolean isCategoryTableDisplayed() {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(categoryTable))
+                .isDisplayed();
     }
 
     public void clickAddCategory() {
@@ -28,8 +49,28 @@ public class CategoryListPage {
                 .click();
     }
 
-    public boolean isCategoryTableDisplayed() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(categoryTable))
+    // ================== CAT_06 ACTIONS ==================
+
+    public void clickEditForFirstCategory() {
+        wait.until(ExpectedConditions.elementToBeClickable(firstEditIcon))
+                .click();
+    }
+
+    public void updateCategoryName(String newName) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(categoryNameInput))
+                .clear();
+        driver.findElement(categoryNameInput).sendKeys(newName);
+    }
+
+    public void clickSaveButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(saveButton))
+                .click();
+    }
+
+    public boolean isUpdatedCategoryDisplayed(String categoryName) {
+        By updatedCategory =
+                By.xpath("//table//td[contains(text(),'" + categoryName + "')]");
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(updatedCategory))
                 .isDisplayed();
     }
 }
