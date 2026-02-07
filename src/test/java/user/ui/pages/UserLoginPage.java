@@ -4,11 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 
 public class UserLoginPage {
-
     private WebDriver driver;
     private WebDriverWait wait;
 
@@ -26,13 +24,8 @@ public class UserLoginPage {
     }
 
     public void loginAsUser(String username, String password) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(usernameInput))
-                .sendKeys(username);
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(passwordInput))
-                .sendKeys(password);
-
-        wait.until(ExpectedConditions.elementToBeClickable(loginButton))
-                .click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(usernameInput)).sendKeys(username);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(passwordInput)).sendKeys(password);
+        wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
     }
 }

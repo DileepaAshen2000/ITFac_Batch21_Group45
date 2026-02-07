@@ -1,14 +1,11 @@
 package user.ui.stepdefinitions;
 
-import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import io.cucumber.java.en.*;
 import org.openqa.selenium.WebDriver;
-
 import user.ui.pages.UserCategoryListPage;
 import user.ui.pages.UserLoginPage;
 import common.utils.DriverFactory;
@@ -24,9 +21,8 @@ public class TC_USER_UI_CAT_01_Steps {
 
     @Given("User is logged into the system")
     public void user_is_logged_into_the_system() {
-        driver.get("http://localhost:8008/ui/login");
-
         loginPage = new UserLoginPage(driver);
+        loginPage.openLoginPage();
         loginPage.loginAsUser("testuser", "test123");
     }
 
@@ -37,35 +33,31 @@ public class TC_USER_UI_CAT_01_Steps {
     }
 
     @When("User clicks the ID column header once")
-    public void user_clicks_id_column_once() {
+    public void user_clicks_the_id_column_header_once() {
         categoryPage.clickIdHeader();
         firstClickIds = categoryPage.getCategoryIds();
     }
 
     @When("User clicks the ID column header again")
-    public void user_clicks_id_column_again() {
+    public void user_clicks_the_id_column_header_again() {
         categoryPage.clickIdHeader();
         secondClickIds = categoryPage.getCategoryIds();
     }
 
     @Then("Categories should be sorted descending then ascending by ID")
-    public void categories_should_be_sorted_correctly() {
-
+    public void categories_should_be_sorted_descending_then_ascending_by_id() {
         List<Integer> sortedAsc = new ArrayList<>(firstClickIds);
         Collections.sort(sortedAsc);
 
         List<Integer> sortedDesc = new ArrayList<>(sortedAsc);
         Collections.reverse(sortedDesc);
 
-        boolean firstIsAsc = firstClickIds.equals(sortedAsc);
-        boolean firstIsDesc = firstClickIds.equals(sortedDesc);
+        boolean isFirstAsc = firstClickIds.equals(sortedAsc);
+        boolean isFirstDesc = firstClickIds.equals(sortedDesc);
+        boolean isSecondAsc = secondClickIds.equals(sortedAsc);
+        boolean isSecondDesc = secondClickIds.equals(sortedDesc);
 
-        // One must be ASC and the other DESC
-        assertEquals(
-                "Sorting toggle failed",
-                true,
-                (firstIsAsc && secondClickIds.equals(sortedDesc)) ||
-                        (firstIsDesc && secondClickIds.equals(sortedAsc))
-        );
+        assertTrue("The sorting did not toggle correctly between clicks.",
+                (isFirstAsc && isSecondDesc) || (isFirstDesc && isSecondAsc));
     }
 }
