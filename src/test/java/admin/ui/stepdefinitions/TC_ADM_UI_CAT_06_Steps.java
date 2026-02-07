@@ -14,7 +14,6 @@ public class TC_ADM_UI_CAT_06_Steps {
 
     @Given("Admin navigates to category list page")
     public void admin_navigates_to_category_list_page() {
-        // Initialize driver and page object here to ensure the browser is ready
         this.driver = DriverFactory.getDriver();
         this.categoryListPage = new CategoryListPage(driver);
 
