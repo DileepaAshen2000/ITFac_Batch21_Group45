@@ -12,18 +12,20 @@ public class TC_USER_UI_CAT_02_Steps {
     UserCategoryListPage categoryPage = new UserCategoryListPage(driver);
 
     @When("User clicks on the {string} menu link")
-    public void user_clicks_on_the_menu_link(String linkText) {
+    public void user_clicks_on_the_menu_link(String linkName) {
+        // This targets the "Categories" link in your sidebar/menu
         categoryPage.clickCategoriesMenu();
     }
 
     @Then("the Category List page should load successfully")
     public void the_category_list_page_should_load_successfully() {
-        assertTrue("Category List page header was not found!", categoryPage.isPageLoaded());
+        assertTrue("Category List page header not found!", categoryPage.isPageLoaded());
     }
 
     @Then("all categories should be visible in the table")
     public void all_categories_should_be_visible_in_the_table() {
+        // Verifies the table is not empty
         int count = categoryPage.getCategoryIds().size();
-        assertTrue("No categories were found in the table!", count >= 0);
+        assertTrue("No categories were found in the table!", count > 0);
     }
 }

@@ -12,14 +12,14 @@ import common.utils.DriverFactory;
 
 public class TC_USER_UI_CAT_05_Steps {
 
-    WebDriver driver = DriverFactory.getDriver();
     UserLoginPage loginPage;
-    UserCategoryListPage categoryPage;
 
+    WebDriver driver = DriverFactory.getDriver();
+    UserCategoryListPage categoryPage = new UserCategoryListPage(driver); // Ensure 'new' is used!
     List<String> firstClickNames;
     List<String> secondClickNames;
 
-    @Given("User is logged into the system")
+   /* @Given("User is logged into the system")
     public void user_is_logged_into_the_system() {
         loginPage = new UserLoginPage(driver);
         loginPage.openLoginPage();
@@ -31,7 +31,7 @@ public class TC_USER_UI_CAT_05_Steps {
         driver.get("http://localhost:8008/ui/categories");
         categoryPage = new UserCategoryListPage(driver);
     }
-
+*/
     @When("User clicks the Name column header once")
     public void user_clicks_the_name_column_header_once() {
         categoryPage.clickNameHeader();
