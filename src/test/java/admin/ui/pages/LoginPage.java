@@ -21,18 +21,17 @@ public class LoginPage {
     public void login(String username, String password) {
         driver.get("http://localhost:8008/ui/login");
 
-        WebElement user =
-                wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField));
+        WebElement user = wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField));
         user.clear();
         user.sendKeys(username);
 
-        WebElement pass =
-                wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField));
+        WebElement pass = wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField));
         pass.clear();
         pass.sendKeys(password);
 
         wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
 
-        wait.until(ExpectedConditions.urlContains("/categories"));
+        // Wait for dashboard to load first
+        wait.until(ExpectedConditions.urlContains("/dashboard"));
     }
 }

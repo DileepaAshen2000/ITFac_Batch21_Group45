@@ -8,11 +8,13 @@ public class Hooks {
 
     @Before
     public void setup() {
-        DriverFactory.getDriver();
+        System.out.println(">>> SETTING UP DRIVER <<<");
+        DriverFactory.getDriver(); // initialize driver
     }
 
     @After
     public void tearDown() {
+        System.out.println(">>> QUITTING DRIVER <<<");
         DriverFactory.quitDriver();
     }
 }

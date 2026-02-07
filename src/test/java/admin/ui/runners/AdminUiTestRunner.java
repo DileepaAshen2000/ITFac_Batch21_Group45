@@ -20,6 +20,7 @@ import io.cucumber.junit.CucumberOptions;
 )
 public class AdminUiTestRunner {
 }*/
+
 package admin.ui.runners;
 
 import org.junit.runner.RunWith;
@@ -31,7 +32,7 @@ import io.cucumber.junit.CucumberOptions;
         features = "src/test/resources/features/admin/ui",
         glue = {
                 "admin.ui.stepdefinitions",
-                "common.hooks"
+                "common.hooks"  // if you have setup/teardown hooks
         },
         plugin = {"pretty"},
         tags = "@TC_ADM_UI_CAT_06"
