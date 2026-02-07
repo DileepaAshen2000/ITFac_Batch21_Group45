@@ -1,4 +1,4 @@
-@User
+@UserUi
 @TC_USER_UI_CAT_01
 Feature: User Category Sorting
 

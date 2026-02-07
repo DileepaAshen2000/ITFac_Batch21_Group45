@@ -10,10 +10,10 @@ public class BaseApi {
     protected static final String BASE_URL = "http://localhost:8008";
 
     protected static final String ADMIN_TOKEN =
-            "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNzcwMjc1OTQ4LCJleHAiOjE3NzAyNzk1NDh9.LYL6kHwHrkVg2Uq7derdTpAYAEStKhv7eJ0TUHWEgBM";
+            "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNzcwNDY5MTYzLCJleHAiOjE3NzA0NzI3NjN9.uxUt8ZNMrDMqfYFUURtQRkMbBG1EvZ-9UNlDLB--KgA";
 
     protected static final String USER_TOKEN =
-            "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE3NzAyNzU5MDYsImV4cCI6MTc3MDI3OTUwNn0.6uzsyujAL6PMcnwm2L82sDmwfDzi3maKxxph3kajNjg";
+            "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE3NzA0NjkyMjEsImV4cCI6MTc3MDQ3MjgyMX0.0HUd8LNcVsQdCkJcV3EZIr2xYXv3fq62zAbk2XxkcR0";
 
     protected void setupAdminAuth() {
         RestAssured.baseURI = BASE_URL;

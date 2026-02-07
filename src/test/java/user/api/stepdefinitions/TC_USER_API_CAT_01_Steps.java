@@ -12,7 +12,7 @@ public class TC_USER_API_CAT_01_Steps {
 
         String payload = """
                 {
-                  "name": "ABC9",
+                  "name": "ABC15",
                   "parentId": null
                 }
                 """;

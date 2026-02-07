@@ -1,4 +1,4 @@
-@User
+@UserUi
 @TC_USER_UI_CAT_03
 Feature: User cannot edit or delete categories
 

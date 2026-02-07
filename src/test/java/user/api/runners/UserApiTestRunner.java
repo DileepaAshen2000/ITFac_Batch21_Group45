@@ -10,7 +10,8 @@ import io.cucumber.junit.CucumberOptions;
         glue = "user.api.stepdefinitions",
         plugin = {
                 "pretty",
-                "html:target/user-api-report.html"
+                "html:target/user-api-report.html",
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
         },
         monochrome = true
 )

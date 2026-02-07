@@ -11,10 +11,11 @@ import io.cucumber.junit.CucumberOptions;
                 "user.ui.stepdefinitions",
                 "user.ui.hooks"
         },
-        tags = "@User",
+        tags = "@UserUi",
         plugin = {
                 "pretty",
-                "html:target/user-ui-report.html"
+                "html:target/user-ui-report.html",
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
         },
         monochrome = true
 )
