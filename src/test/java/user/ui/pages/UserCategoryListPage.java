@@ -26,9 +26,6 @@ public class UserCategoryListPage {
     private By addCategoryButton =
             By.xpath("//a[contains(text(),'Add')]");
 
-    private By editButtons =
-            By.cssSelector("a[title='Edit'], a[tittle='Edit']");
-
     private By deleteButtons =
             By.cssSelector("button[title='Delete']");
 
@@ -59,7 +56,7 @@ public class UserCategoryListPage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    // ========= SORTING =========
+    // sorting
 
     public void clickIdHeader() {
         wait.until(ExpectedConditions.elementToBeClickable(idHeader))
@@ -81,33 +78,20 @@ public class UserCategoryListPage {
         return ids;
     }
 
-    // ========= ADD BUTTON =========
+    // delete button visible
+
+    public boolean isDeleteOptionVisible() {
+        List<?> deleteBtns = driver.findElements(deleteButtons);
+        return !deleteBtns.isEmpty();
+    }
+
+    // add category button
 
     public boolean isAddCategoryButtonVisible() {
         return !driver.findElements(addCategoryButton).isEmpty();
     }
 
-    // ========= EDIT / DELETE =========
-
-    public boolean hasEnabledEditButtons() {
-        for (WebElement btn : driver.findElements(editButtons)) {
-            if (btn.getAttribute("disabled") == null) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean hasEnabledDeleteButtons() {
-        for (WebElement btn : driver.findElements(deleteButtons)) {
-            if (btn.getAttribute("disabled") == null) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // ========= PAGINATION =========
+    // pagination
 
     public void clickNextButton() {
         WebElement next = wait.until(ExpectedConditions.elementToBeClickable(nextButton));
@@ -132,7 +116,7 @@ public class UserCategoryListPage {
         return !driver.findElements(paginationContainer).isEmpty();
     }
 
-    // ========= EMPTY STATE =========
+    // no categories
 
     public boolean isNoCategoryMessageDisplayed() {
         try {

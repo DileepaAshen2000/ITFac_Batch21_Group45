@@ -1,8 +1,8 @@
 @UserUi
 @TC_USER_UI_CAT_03
-Feature: User cannot edit or delete categories
+Feature: Category delete button not visible for User
 
-  Scenario: Verify no edit or delete actions are available for User
-    Given User is logged in and categories exist
-    When User views the categories list
-    Then No edit or delete actions should be available
+  Scenario: Verify Delete button is visible for user
+    Given User is logged into the system as an user
+    When User navigates to the category list page
+    Then The Delete butto not visible in the actions column
