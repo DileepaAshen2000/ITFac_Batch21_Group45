@@ -1,4 +1,4 @@
-package admin.ui.runners;
+/*package admin.ui.runners;
 
 import org.junit.runner.RunWith;
 import io.cucumber.junit.Cucumber;
@@ -17,6 +17,24 @@ import io.cucumber.junit.CucumberOptions;
                 "html:target/admin-ui-report.html"
         },
         monochrome = true
+)
+public class AdminUiTestRunner {
+}*/
+package admin.ui.runners;
+
+import org.junit.runner.RunWith;
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        features = "src/test/resources/features/admin/ui",
+        glue = {
+                "admin.ui.stepdefinitions",
+                "common.hooks"
+        },
+        plugin = {"pretty"},
+        tags = "@TC_ADM_UI_CAT_06"
 )
 public class AdminUiTestRunner {
 }

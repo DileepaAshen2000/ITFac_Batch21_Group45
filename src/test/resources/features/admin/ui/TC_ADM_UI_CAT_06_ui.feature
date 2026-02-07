@@ -1,7 +1,6 @@
-Feature: Admin Category Management
+@TC_ADM_UI_CAT_06
+Feature: Admin Category Management - Edit Category
 
-  @Admin
-  @TC_ADM_UI_CAT_06
   Scenario: Verify editing an existing category as Admin
     Given Admin is logged into the system
     And Admin navigates to category list page

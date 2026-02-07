@@ -11,33 +11,28 @@ import java.time.Duration;
 
 public class LoginPage {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
+    WebDriver driver = DriverFactory.getDriver();
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
-    public LoginPage() {
-        this.driver = DriverFactory.getDriver();
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-    }
+    private By usernameField = By.name("username");
+    private By passwordField = By.name("password");
+    private By loginButton   = By.xpath("//button[@type='submit']");
 
-    public void openLoginPage() {
+    public void login(String username, String password) {
         driver.get("http://localhost:8008/ui/login");
-    }
 
-    public void loginAsAdmin(String username, String password) {
-        WebElement usernameField =
-                wait.until(ExpectedConditions.visibilityOfElementLocated(
-                        By.name("username")));
+        WebElement user =
+                wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField));
+        user.clear();
+        user.sendKeys(username);
 
-        WebElement passwordField =
-                wait.until(ExpectedConditions.visibilityOfElementLocated(
-                        By.name("password")));
+        WebElement pass =
+                wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField));
+        pass.clear();
+        pass.sendKeys(password);
 
-        WebElement loginButton =
-                wait.until(ExpectedConditions.elementToBeClickable(
-                        By.cssSelector("button[type='submit']")));
+        wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
 
-        usernameField.sendKeys(username);
-        passwordField.sendKeys(password);
-        loginButton.click();
+        wait.until(ExpectedConditions.urlContains("/categories"));
     }
 }
