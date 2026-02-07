@@ -12,46 +12,56 @@ public class CategoryListPage {
     WebDriver driver;
     WebDriverWait wait;
 
-    // Locators
-    By categoryTable = By.id("categoryTable");  // update with actual locator
-    By firstEditIcon = By.cssSelector(".edit-category");  // update as needed
-    By categoryNameField = By.id("categoryName");  // update
-    By saveButton = By.id("saveCategory");  // update
+    // UPDATED LOCATORS based on your provided HTML
+    // Using class names because the id="categoryTable" is missing in your HTML
+    By categoryTable = By.cssSelector("table.table");
+
+    // Using the 'title' attribute of the anchor tag for the edit button
+    By firstEditIcon = By.cssSelector("a[title='Edit']");
+
+    // Common IDs for category forms - please verify these in your Edit Page HTML
+    By categoryNameField = By.id("name");
+    By saveButton = By.cssSelector("button[type='submit']");
 
     public CategoryListPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
 
-    // Navigate explicitly to /categories page
     public void navigateToCategoryList() {
         driver.get("http://localhost:8008/ui/categories");
-
-        // Wait for table to be displayed
+        // Wait for the table to appear using its CSS class
         wait.until(ExpectedConditions.visibilityOfElementLocated(categoryTable));
     }
 
     public boolean isCategoryTableDisplayed() {
-        return driver.findElement(categoryTable).isDisplayed();
+        try {
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(categoryTable)).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void clickEditForFirstCategory() {
+        // Wait for the specific edit link to be clickable
         wait.until(ExpectedConditions.elementToBeClickable(firstEditIcon)).click();
     }
 
     public void updateCategoryName(String newName) {
+        // Wait for the input field on the edit page
         wait.until(ExpectedConditions.visibilityOfElementLocated(categoryNameField)).clear();
         driver.findElement(categoryNameField).sendKeys(newName);
     }
 
     public void clickSaveButton() {
         wait.until(ExpectedConditions.elementToBeClickable(saveButton)).click();
-
-        // Wait for table to reload
+        // Wait for the browser to return to the list page
         wait.until(ExpectedConditions.visibilityOfElementLocated(categoryTable));
     }
 
     public boolean isUpdatedCategoryDisplayed(String categoryName) {
-        return !driver.findElements(By.xpath("//td[text()='" + categoryName + "']")).isEmpty();
+        // Check if a table cell contains the new category name
+        By updatedRow = By.xpath("//td[contains(text(), '" + categoryName + "')]");
+        return !driver.findElements(updatedRow).isEmpty();
     }
 }

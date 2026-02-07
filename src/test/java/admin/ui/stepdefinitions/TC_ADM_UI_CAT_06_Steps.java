@@ -8,14 +8,18 @@ import org.openqa.selenium.WebDriver;
 
 public class TC_ADM_UI_CAT_06_Steps {
 
-    WebDriver driver = DriverFactory.getDriver();
-    CategoryListPage categoryListPage = new CategoryListPage(driver);
-    String updatedCategoryName = "CAT6";
+    private WebDriver driver;
+    private CategoryListPage categoryListPage;
+    private final String updatedCategoryName = "CAT6";
 
     @Given("Admin navigates to category list page")
     public void admin_navigates_to_category_list_page() {
+        // Initialize driver and page object here to ensure the browser is ready
+        this.driver = DriverFactory.getDriver();
+        this.categoryListPage = new CategoryListPage(driver);
+
         categoryListPage.navigateToCategoryList();
-        Assert.assertTrue(categoryListPage.isCategoryTableDisplayed());
+        Assert.assertTrue("Category table was not displayed!", categoryListPage.isCategoryTableDisplayed());
     }
 
     @When("Admin clicks edit icon for an existing category")
@@ -33,8 +37,15 @@ public class TC_ADM_UI_CAT_06_Steps {
         categoryListPage.clickSaveButton();
     }
 
+    @Then("Admin should be redirected to category list page")
+    public void admin_should_be_redirected_to_category_list_page() {
+        // Added check for the specific step in your feature file
+        Assert.assertTrue("Not on the category list page!", categoryListPage.isCategoryTableDisplayed());
+    }
+
     @Then("Updated category should be displayed in the list")
     public void updated_category_should_be_displayed_in_the_list() {
-        Assert.assertTrue(categoryListPage.isUpdatedCategoryDisplayed(updatedCategoryName));
+        boolean isDisplayed = categoryListPage.isUpdatedCategoryDisplayed(updatedCategoryName);
+        Assert.assertTrue("Updated category '" + updatedCategoryName + "' was not found in the list!", isDisplayed);
     }
 }
