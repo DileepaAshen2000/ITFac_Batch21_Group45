@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import user.ui.pages.UserPlantListPage;
 
+
 public class TC_USR_UI_PLANT_03_Steps {
 
     private final WebDriver driver = DriverFactory.getDriver();
@@ -16,7 +17,7 @@ public class TC_USR_UI_PLANT_03_Steps {
         plantList.goToPlantsPage();
     }
 
-    @Then("Edit and Delete actions should NOT be visible for User")
+    @Then("Edit and Delete actions should NOT be visible for User.")
     public void edit_and_delete_actions_should_not_be_visible_for_user() {
         Assert.assertFalse("Edit/Delete found for User (should be hidden)", plantList.areEditDeleteVisible());
     }

@@ -6,12 +6,13 @@ import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import user.ui.pages.UserPlantListPage;
 
+
 public class TC_USR_UI_PLANT_02_Steps {
 
     private final WebDriver driver = DriverFactory.getDriver();
     private final UserPlantListPage plantList = new UserPlantListPage(driver);
 
-    @When("User navigates to plant list page for TC02")
+    @When("User navigates to plant list page for TC02.")
     public void user_navigates_to_plant_list_page_for_tc02() {
         plantList.goToPlantsPage();
     }

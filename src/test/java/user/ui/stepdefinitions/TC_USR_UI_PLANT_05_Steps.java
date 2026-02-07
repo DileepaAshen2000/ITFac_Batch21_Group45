@@ -13,6 +13,8 @@ public class TC_USR_UI_PLANT_05_Steps {
     private final WebDriver driver = DriverFactory.getDriver();
     private final UserPlantListPage plantList = new UserPlantListPage(driver);
 
+
+
     private String selectedCategory;
     private List<String> categoryColumnValues;
 
@@ -25,14 +27,13 @@ public class TC_USR_UI_PLANT_05_Steps {
     public void user_applies_a_category_filter() {
         List<String> options = plantList.getAllCategoryFilterOptions();
 
-        // usually: "All Categories" is index 0, pick index 1
         Assert.assertTrue("No category options available to filter", options.size() > 1);
 
         selectedCategory = options.get(1);
         plantList.selectCategoryFilterByVisibleText(selectedCategory);
         plantList.clickSearch();
 
-        categoryColumnValues = plantList.getColumnTexts(2); // Category column is 2
+        categoryColumnValues = plantList.getColumnTexts(2);
     }
 
     @Then("Plant list should be filtered by selected category")

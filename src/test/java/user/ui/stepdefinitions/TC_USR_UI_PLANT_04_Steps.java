@@ -8,6 +8,7 @@ import user.ui.pages.UserPlantListPage;
 
 import java.util.List;
 
+
 public class TC_USR_UI_PLANT_04_Steps {
 
     private final WebDriver driver = DriverFactory.getDriver();
@@ -30,6 +31,7 @@ public class TC_USR_UI_PLANT_04_Steps {
     @Then("Matching plant results should be shown for keyword {string}")
     public void matching_plant_results_should_be_shown_for_keyword(String keyword) {
         Assert.assertFalse("No rows found after search", names == null || names.isEmpty());
+
 
         boolean anyMatch = names.stream().anyMatch(n -> n.toLowerCase().contains(keyword.toLowerCase()));
         Assert.assertTrue("No matching plant name contains keyword: " + keyword, anyMatch);
