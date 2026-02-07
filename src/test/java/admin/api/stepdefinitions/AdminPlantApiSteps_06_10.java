@@ -35,8 +35,7 @@ public class AdminPlantApiSteps_06_10 {
             return;
         }
 
-        // If no plants exist, create one using categoryId from another source is unknown.
-        // So we fail with a clear message (better than false pass).
+
         Assert.fail("No plants exist to run update/delete. Seed DB with at least 1 plant, or create a plant endpoint setup.");
     }
 
@@ -52,7 +51,6 @@ public class AdminPlantApiSteps_06_10 {
         Assert.assertNotNull("Could not extract categoryId from plant response", categoryId);
     }
 
-    // ---- TC-ADM-API-PLANT-06 ----:contentReference[oaicite:2]{index=2}
     @When("Admin creates a plant with negative quantity")
     public void admin_creates_a_plant_with_negative_quantity() {
         // Need categoryId to create plant via /api/plants/category/{categoryId} (based on your swagger list)
@@ -74,42 +72,25 @@ public class AdminPlantApiSteps_06_10 {
                 res.statusCode() == 400 || res.statusCode() == 422);
     }
 
-    // ---- TC-ADM-API-PLANT-07 ----:contentReference[oaicite:3]{index=3}
-//    @When("Admin updates the plant via API")
-//    public void admin_updates_the_plant_via_api() {
-//        Assert.assertNotNull("plantId is null", plantId);
-//
-//        Map<String, Object> body = new HashMap<>();
-//        body.put("name", "Updated_" + PlantTestData.randomPlantName());
-//        body.put("price", 99.99);
-//        body.put("quantity", 10);
-//
-//        Response res = ApiRequest.put(adminToken, "/api/plants/" + plantId, body);
-//        ctx.setResponse(res);
-//    }
+
     @When("Admin updates the plant via API")
     public void admin_updates_the_plant_via_api() {
         Assert.assertNotNull("plantId is null", plantId);
 
-        // 1) GET current plant (so we keep required fields like category)
         Response getRes = ApiRequest.get(adminToken, "/api/plants/" + plantId);
         ctx.setResponse(getRes);
         Assert.assertEquals("GET plant failed", 200, getRes.statusCode());
 
         Map<String, Object> plant = getRes.as(Map.class);
 
-        // 2) Update fields
         plant.put("name", "Updated_" + PlantTestData.randomPlantName());
         plant.put("price", 99.99);
         plant.put("quantity", 10);
 
-        // IMPORTANT: Ensure id is included (some backends require it in body)
         plant.put("id", plantId);
 
-        // 3) PUT full object back
         Response putRes = ApiRequest.put(adminToken, "/api/plants/" + plantId, plant);
 
-        // Debug (so if still 400 you can see message)
         System.out.println("PUT STATUS: " + putRes.statusCode());
         System.out.println("PUT BODY: " + putRes.asString());
 
@@ -122,7 +103,6 @@ public class AdminPlantApiSteps_06_10 {
         Assert.assertEquals(200, ctx.getResponse().statusCode());
     }
 
-    // ---- TC-ADM-API-PLANT-08 ----:contentReference[oaicite:4]{index=4}
     @When("Admin deletes the plant via API")
     public void admin_deletes_the_plant_via_api() {
         Assert.assertNotNull("plantId is null", plantId);
@@ -135,7 +115,6 @@ public class AdminPlantApiSteps_06_10 {
         Assert.assertEquals(204, ctx.getResponse().statusCode());
     }
 
-    // ---- TC-ADM-API-PLANT-09 ----:contentReference[oaicite:5]{index=5}
     @When("Admin filters plants by category via API")
     public void admin_filters_plants_by_category_via_api() {
         Assert.assertNotNull("categoryId is null", categoryId);
@@ -149,10 +128,8 @@ public class AdminPlantApiSteps_06_10 {
         Assert.assertEquals(200, res.statusCode());
         List<Map<String, Object>> list = res.jsonPath().getList("$");
         Assert.assertNotNull("Response list is null", list);
-        // can be empty depending on data; so just validate response format
     }
 
-    // ---- TC-ADM-API-PLANT-10 ----:contentReference[oaicite:6]{index=6}
     @When("Admin requests paged plants sorted by {string}")
     public void admin_requests_paged_plants_sorted_by(String sortField) {
         Map<String, Object> qp = new HashMap<>();
@@ -166,7 +143,7 @@ public class AdminPlantApiSteps_06_10 {
         Response res = ctx.getResponse();
         Assert.assertEquals(200, res.statusCode());
 
-        // This endpoint might return {content:[...], ...} OR a simple array
+
         JsonPath jp = res.jsonPath();
         List<Map<String, Object>> items = jp.getList("content");
         if (items == null) items = jp.getList("$");
@@ -175,11 +152,11 @@ public class AdminPlantApiSteps_06_10 {
         if (items.size() >= 2 && "price".equalsIgnoreCase(sortField)) {
             double p1 = Double.parseDouble(items.get(0).get("price").toString());
             double p2 = Double.parseDouble(items.get(1).get("price").toString());
-            Assert.assertTrue("Not sorted by price (first two items)", p1 <= p2 || p1 >= p2); // allow API asc/desc
+            Assert.assertTrue("Not sorted by price (first two items)", p1 <= p2 || p1 >= p2);
         }
     }
 
-    // ---- helpers ----
+
     private Integer extractPlantId(Map<String, Object> plant) {
         Object id = plant.get("id");
         if (id == null) return null;

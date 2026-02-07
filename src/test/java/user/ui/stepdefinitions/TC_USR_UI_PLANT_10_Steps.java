@@ -2,7 +2,6 @@ package user.ui.stepdefinitions;
 
 import common.utils.DriverFactory;
 import io.cucumber.java.en.*;
-import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import user.ui.pages.UserPlantListPage;
 
@@ -15,15 +14,6 @@ public class TC_USR_UI_PLANT_10_Steps {
 
     private List<String> names;
 
-//    @Given("User is logged into the system")
-//    public void user_is_logged_into_the_system() {
-//        // reuse login
-//    }
-
-//    @When("User navigates to plant list page")
-//    public void user_navigates_to_plant_list_page() {
-//        plantList.goToPlantsPage();
-//    }
 
     @When("User clicks reset")
     public void user_clicks_reset() {
@@ -31,8 +21,4 @@ public class TC_USR_UI_PLANT_10_Steps {
         names = plantList.getColumnTexts(1);
     }
 
-//    @Then("Plant list should be sorted alphabetically by name")
-//    public void plant_list_should_be_sorted_alphabetically_by_name() {
-//        Assert.assertTrue("Plant list not alphabetically sorted after reset", plantList.isAlphabeticallySorted(names));
-//    }
 }

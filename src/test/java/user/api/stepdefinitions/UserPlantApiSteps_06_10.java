@@ -32,7 +32,6 @@ public class UserPlantApiSteps_06_10 {
         Assert.assertNotNull("Could not extract categoryId from plant response", categoryId);
     }
 
-    // ---- TC-USR-API-PLANT-06 ----:contentReference[oaicite:7]{index=7}
     @When("User filters plants by category via API")
     public void user_filters_plants_by_category_via_api() {
         Response res = ApiRequest.get(userToken, "/api/plants/category/" + categoryId);
@@ -47,7 +46,6 @@ public class UserPlantApiSteps_06_10 {
         Assert.assertNotNull(list);
     }
 
-    // ---- TC-USR-API-PLANT-07 ----:contentReference[oaicite:8]{index=8}
     @When("User requests paged plants sorted by {string}")
     public void user_requests_paged_plants_sorted_by(String sortField) {
         Map<String, Object> qp = new HashMap<>();
@@ -67,7 +65,6 @@ public class UserPlantApiSteps_06_10 {
         Assert.assertNotNull(items);
     }
 
-    // ---- TC-USR-API-PLANT-08 ----:contentReference[oaicite:9]{index=9}
     @When("User requests paged plants with page {string}")
     public void user_requests_paged_plants_with_page(String page) {
         Map<String, Object> qp = new HashMap<>();
@@ -81,14 +78,12 @@ public class UserPlantApiSteps_06_10 {
         Response res = ctx.getResponse();
         Assert.assertEquals(200, res.statusCode());
 
-        // check typical pagination fields or list existence
         Object content = res.jsonPath().get("content");
         Object list = res.jsonPath().get("$");
         Assert.assertTrue("Expected paged structure (content) or array",
                 content != null || list != null);
     }
 
-    // ---- TC-USR-API-PLANT-09 ----:contentReference[oaicite:10]{index=10}
     @When("User requests all plants")
     public void user_requests_all_plants() {
         Response res = ApiRequest.get(userToken, "/api/plants");
@@ -106,22 +101,17 @@ public class UserPlantApiSteps_06_10 {
         if (!plants.isEmpty()) {
             boolean hasLow = plants.stream().anyMatch(p -> {
                 Object q = p.get("quantity");
-                if (q == null) q = p.get("stock"); // fallback
+                if (q == null) q = p.get("stock");
                 if (q == null) return false;
                 return Integer.parseInt(q.toString()) < 5;
             });
-            // If your DB has no low-stock plant right now, this could be false.
-            // So we don't fail hard; we validate quantities are readable.
             Assert.assertTrue("No low-stock plant found (<5). Seed one low-stock plant to fully satisfy TC.",
                     hasLow || plants.size() > 0);
         }
     }
 
-    // ---- TC-USR-API-PLANT-10 ----:contentReference[oaicite:11]{index=11}
     @And("Plant list is empty in test environment if possible")
     public void plant_list_is_empty_in_test_environment_if_possible() {
-        // Best practice: use a dedicated test DB with no plants.
-        // If you want, you can manually clear DB before running this scenario.
     }
 
     @Then("User should receive an empty array response")

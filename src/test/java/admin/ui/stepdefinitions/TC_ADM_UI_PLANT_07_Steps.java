@@ -16,10 +16,6 @@ public class TC_ADM_UI_PLANT_07_Steps {
     private String originalName;
     private String updatedName;
 
-//    @Given("Admin is logged into the system")
-//    public void admin_is_logged_into_the_system() {
-//        // reuse existing login
-//    }
 
     @When("Admin navigates to plant list page for TC07")
     public void admin_navigates_to_plant_list_page() {
@@ -37,8 +33,6 @@ public class TC_ADM_UI_PLANT_07_Steps {
         plantForm.setName(updatedName);
         plantForm.setPrice("9.99");
         plantForm.setStock("10");
-        // If category dropdown exists and value is valid in your system, keep this:
-        // plantForm.setCategoryByVisibleText("Sub_Cat 1");
 
         plantForm.clickSave();
         plantList.waitForTableVisible();

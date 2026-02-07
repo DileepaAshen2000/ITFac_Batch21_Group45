@@ -23,16 +23,12 @@ public class UserCommonSteps {
     @When("User sorts plants by name")
     public void user_sorts_plants_by_name() {
         plantList.clickSortByName();
-        names = plantList.getColumnTexts(1); // column 1 = Name (your method)
+        names = plantList.getColumnTexts(1);
     }
 
-//    @Then("Plant list should be sorted alphabetically by name")
-//    public void plant_list_should_be_sorted_alphabetically_by_name() {
-//        Assert.assertTrue("Plant list not sorted alphabetically", plantList.isAlphabeticallySorted(names));
-//    }
     @Then("Plant list should be sorted alphabetically by name")
     public void plant_list_should_be_sorted_alphabetically_by_name() {
-        List<String> names = plantList.getColumnTexts(1); // 1 = Name column (adjust if needed)
+        List<String> names = plantList.getColumnTexts(1);
         Assert.assertTrue("Plant list not sorted alphabetically", plantList.isAlphabeticallySorted(names));
     }
 
