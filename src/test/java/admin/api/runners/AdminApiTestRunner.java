@@ -7,8 +7,8 @@ import io.cucumber.junit.CucumberOptions;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "src/test/resources/features/admin/api",
-        glue = "admin.api.stepdefinitions",
-        plugin = {"pretty", "html:target/admin-api-report.html"},
+        glue = {"admin.api.stepdefinitions", "common.utils"},
+        plugin = {"pretty", "html:target/cucumber-reports/admin-api.html"},
         monochrome = true
 )
 public class AdminApiTestRunner {

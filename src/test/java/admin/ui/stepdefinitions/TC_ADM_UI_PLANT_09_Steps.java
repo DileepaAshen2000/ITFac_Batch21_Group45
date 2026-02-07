@@ -17,11 +17,6 @@ public class TC_ADM_UI_PLANT_09_Steps {
 
     private String deletedName;
 
-//    @Given("Admin is logged into the system")
-//    public void admin_is_logged_into_the_system() {
-//        // reuse existing login
-//    }
-
     @When("Admin navigates to plant list page for TC09")
     public void admin_navigates_to_plant_list_page() {
         plantList.goToPlantsPage();
@@ -31,13 +26,6 @@ public class TC_ADM_UI_PLANT_09_Steps {
     public void admin_deletes_the_first_plant_and_confirms() {
         deletedName = plantList.getFirstRowPlantName();
         plantList.clickDeleteFirstRow();
-
-        // Confirm modal/button - best effort
-//        By confirmBtn = By.xpath("//button[normalize-space()='Yes' or normalize-space()='OK' or normalize-space()='Confirm' or normalize-space()='Delete']");
-//        if (driver.findElements(confirmBtn).size() > 0) {
-//            wait.until(ExpectedConditions.elementToBeClickable(confirmBtn)).click();
-//        }
-
         plantList.waitForTableVisible();
     }
 
