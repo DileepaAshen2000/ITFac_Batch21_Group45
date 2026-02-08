@@ -17,17 +17,29 @@ public class BaseApi {
 
     protected void setupAdminAuth() {
         RestAssured.baseURI = BASE_URL;
+
+        String tokenFromTerminal = System.getProperty("ADMIN_TOKEN");
+        String tokenToUse = (tokenFromTerminal != null && !tokenFromTerminal.isBlank())
+                ? tokenFromTerminal
+                : ADMIN_TOKEN;
+
         request = RestAssured
                 .given()
                 .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer " + ADMIN_TOKEN);
+                .header("Authorization", "Bearer " + tokenToUse);
     }
 
     protected void setupUserAuth() {
         RestAssured.baseURI = BASE_URL;
+
+        String tokenFromTerminal = System.getProperty("USER_TOKEN");
+        String tokenToUse = (tokenFromTerminal != null && !tokenFromTerminal.isBlank())
+                ? tokenFromTerminal
+                : USER_TOKEN;
+
         request = RestAssured
                 .given()
                 .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer " + USER_TOKEN);
+                .header("Authorization", "Bearer " + tokenToUse);
     }
 }

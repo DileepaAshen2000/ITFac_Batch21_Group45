@@ -9,8 +9,7 @@ import io.cucumber.junit.CucumberOptions;
         features = "src/test/resources/features/admin/api",
         glue = "admin.api.stepdefinitions",
         plugin = {"pretty", "html:target/admin-api-report.html"},
-        monochrome = true,
-        // tags = "@TC_ADM_API_SALES_11"
+        monochrome = true
 )
 public class AdminApiTestRunner {
 }
