@@ -13,10 +13,6 @@ public class TC_ADM_UI_PLANT_10_Steps {
     private final AdminPlantListPage plantList = new AdminPlantListPage(driver);
     private final AdminPlantFormPage plantForm = new AdminPlantFormPage(driver);
 
-//    @Given("Admin is logged into the system")
-//    public void admin_is_logged_into_the_system() {
-//        // reuse existing login
-//    }
 
     @When("Admin navigates to plant list page for TC10")
     public void admin_navigates_to_plant_list_page() {

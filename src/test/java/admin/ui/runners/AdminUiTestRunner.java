@@ -6,7 +6,7 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = "src/test/resources/features/admin",
+        features = "src/test/resources/features/admin/ui",
         glue = {
                 "admin.ui.stepdefinitions",
                 "admin.ui.hooks"
@@ -14,7 +14,8 @@ import io.cucumber.junit.CucumberOptions;
         tags = "@Admin",
         plugin = {
                 "pretty",
-                "html:target/admin-ui-report.html"
+                "html:target/admin-ui-report.html",
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
         },
         monochrome = true
 )

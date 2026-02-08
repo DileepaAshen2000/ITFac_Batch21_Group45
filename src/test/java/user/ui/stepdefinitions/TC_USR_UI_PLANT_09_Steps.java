@@ -11,16 +11,6 @@ public class TC_USR_UI_PLANT_09_Steps {
     private final WebDriver driver = DriverFactory.getDriver();
     private final UserPlantListPage plantList = new UserPlantListPage(driver);
 
-//    @Given("User is logged into the system")
-//    public void user_is_logged_into_the_system() {
-//        // reuse login
-//    }
-
-//    @When("User navigates to plant list page")
-//    public void user_navigates_to_plant_list_page() {
-//        plantList.goToPlantsPage();
-//    }
-
     @When("User searches plant with keyword {string}")
     public void user_searches_plant_with_keyword(String keyword) {
         plantList.search(keyword);

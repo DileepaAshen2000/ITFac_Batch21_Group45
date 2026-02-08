@@ -6,15 +6,17 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = "src/test/resources/features/user",
+        features = "src/test/resources/features/user/ui",
         glue = {
                 "user.ui.stepdefinitions",
                 "user.ui.hooks"
         },
-        tags = "@TC_USER_UI_CAT_01",
+        tags = "@User and not @ignore",
+
         plugin = {
                 "pretty",
-                "html:target/user-ui-report.html"
+                "html:target/user-ui-report.html",
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
         },
         monochrome = true
 )

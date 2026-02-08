@@ -3,6 +3,11 @@ package admin.ui.stepdefinitions;
 import common.utils.DriverFactory;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
+import io.qameta.allure.Attachment;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.Alert;
 
 public class Hooks {
@@ -13,11 +18,20 @@ public class Hooks {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown(Scenario scenario) {
+        if (scenario.isFailed()) {
+            attachScreenshot(DriverFactory.getDriver());
+        }
         DriverFactory.quitDriver();
     }
 
-    @After
+
+    @Attachment(value = "Failure Screenshot", type = "image/png")
+    public byte[] attachScreenshot(WebDriver driver) {
+        return ((TakesScreenshot) driver)
+                .getScreenshotAs(OutputType.BYTES);
+    }
+
     public void cleanupAlerts() {
         try {
             Alert a = DriverFactory.getDriver().switchTo().alert();
@@ -26,5 +40,4 @@ public class Hooks {
             // no alert open
         }
     }
-
 }

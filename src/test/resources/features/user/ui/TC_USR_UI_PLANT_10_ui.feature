@@ -1,12 +1,3 @@
-#Feature: TC-USR-UI-PLANT-10 Verify Reset button
-#
-#  @TC_USR_UI_PLANT_10
-#  Scenario: Reset arranges alphabetically after sort/filter
-#    Given User is logged in
-#    When User navigates to Plants page
-#    And User sorts or filters the list
-#    And User clicks reset
-#    Then Plants list should be arranged alphabetically
 
 @User @TC_USR_UI_PLANT_10
 Feature: User - Plant - Reset button
