@@ -14,7 +14,8 @@ import io.cucumber.junit.CucumberOptions;
         tags = "@Admin",
         plugin = {
                 "pretty",
-                "html:target/admin-ui-report.html"
+                "html:target/admin-ui-report.html",
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
         },
         monochrome = true
 )
