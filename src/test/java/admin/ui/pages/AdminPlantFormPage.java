@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public class AdminPlantFormPage {
 
@@ -25,12 +26,46 @@ public class AdminPlantFormPage {
     private final By priceInput = By.xpath("//label[normalize-space()='Price']/following::input[1]");
     private final By quantityInput = By.xpath("//label[normalize-space()='Quantity']/following::input[1]");
 
+    private By formHeading = By.xpath("//h3[contains(normalize-space(),'Plant')]");
+    private By nameInput = By.xpath("//label[normalize-space()='Plant Name']/following-sibling::input");
+    private By qtyInput = By.xpath("//label[normalize-space()='Quantity']/following-sibling::input");
+
+
+    // Common validation styles (covers most server-side validation UIs)
+    private By validationErrors = By.cssSelector(
+            ".text-danger, .invalid-feedback, .field-validation-error, .alert.alert-danger"
+    );
+
     public AdminPlantFormPage() {
         this.driver = DriverFactory.getDriver();
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
+    public boolean isFormVisible() {
+        try {
+            return driver.findElement(formHeading).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
+    public void selectCategoryByIndex(int index) {
+        WebElement el = wait.until(ExpectedConditions.visibilityOfElementLocated(categorySelect));
+        Select sel = new Select(el);
+        sel.selectByIndex(index);
+    }
+
+    public boolean hasAnyValidationErrors() {
+        // give UI a tiny moment to render errors after submit
+        try { Thread.sleep(300); } catch (InterruptedException ignored) {}
+        List<WebElement> errs = driver.findElements(validationErrors);
+        for (WebElement e : errs) {
+            if (e.isDisplayed() && !e.getText().trim().isEmpty()) return true;
+        }
+        return false;
+    }
+
+    // If you prefer passing driver, keep this too (optional)
     public AdminPlantFormPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));

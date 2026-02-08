@@ -5,18 +5,26 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdminPlantListPage {
 
     private final WebDriver driver;
     private final WebDriverWait wait;
+    private final String baseUrl;
 
     public AdminPlantListPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(12));
+        this.baseUrl = System.getProperty("baseUrl", "http://localhost:8008");
     }
+    private By table = By.cssSelector("table.table.table-striped.table-bordered.align-middle");
+    private By tableBodyRows = By.cssSelector("table.table.table-striped.table-bordered.align-middle tbody tr");
+    private By searchInput = By.cssSelector("input[placeholder='Search plant']");
+    private By categorySelect = By.cssSelector("select");
 
+    private By addPlantLink = By.xpath("//a[contains(normalize-space(),'Add') and contains(normalize-space(),'Plant')]");
     private final By plantsSideMenu = By.xpath("//a[normalize-space()='Plants' or .//*[contains(.,'Plants')]]");
 
     private final By plantsTable = By.cssSelector("table.table.table-striped.table-bordered.align-middle");
@@ -42,6 +50,63 @@ public class AdminPlantListPage {
         }
         waitForTableVisible();
     }
+
+    public boolean isAddPlantVisible() {
+        try {
+            return driver.findElement(addPlantLink).isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    public void setSearchKeyword(String keyword) {
+        WebElement el = wait.until(ExpectedConditions.visibilityOfElementLocated(searchInput));
+        el.clear();
+        el.sendKeys(keyword);
+    }
+
+    public void clickSearch() {
+        WebElement el = wait.until(ExpectedConditions.elementToBeClickable(searchBtn));
+        el.click();
+        waitForTableVisible();
+    }
+
+    public void clickReset() {
+        WebElement el = wait.until(ExpectedConditions.elementToBeClickable(resetBtn));
+        el.click();
+        waitForTableVisible();
+    }
+
+    public void selectCategoryFilterByVisibleText(String text) {
+        WebElement selectEl = wait.until(ExpectedConditions.visibilityOfElementLocated(categorySelect));
+        new Select(selectEl).selectByVisibleText(text);
+    }
+
+    public List<String> getAllCategoryFilterOptions() {
+        WebElement selectEl = wait.until(ExpectedConditions.visibilityOfElementLocated(categorySelect));
+        Select sel = new Select(selectEl);
+        List<String> list = new ArrayList<>();
+        sel.getOptions().forEach(o -> list.add(o.getText().trim()));
+        return list;
+    }
+
+    public List<String> getColumnTexts(int tdIndex1Based) {
+        waitForTableVisible();
+        List<WebElement> rows = driver.findElements(tableBodyRows);
+        List<String> vals = new ArrayList<>();
+        for (WebElement r : rows) {
+            List<WebElement> tds = r.findElements(By.cssSelector("td"));
+            if (tds.size() >= tdIndex1Based) {
+                vals.add(tds.get(tdIndex1Based - 1).getText().trim());
+            }
+        }
+        return vals;
+    }
+
+
+
+
+
 
     public void waitForTableVisible() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(plantsTable));
