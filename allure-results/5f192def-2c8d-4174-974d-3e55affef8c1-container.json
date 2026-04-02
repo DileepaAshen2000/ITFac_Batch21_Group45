@@ -1,0 +1,1 @@
+{"uuid":"5f192def-2c8d-4174-974d-3e55affef8c1","name":"Scenario: Verify User is forbidden from creating a category","children":["be4dc51d-0f77-4619-ad60-7630fa3bb497"],"befores":[],"afters":[],"start":1770466410060,"stop":1770466410110}

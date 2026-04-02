@@ -35,18 +35,18 @@ public class TC_USER_UI_CAT_05_Steps {
         boolean hasMessage = categoryPage.isNoCategoryMessageDisplayed();
 
         if (hasRows) {
-
-            assertTrue("Table has data, message should not appear", !hasMessage);
+            assertTrue("Table has data, message should NOT appear", !hasMessage);
         } else {
-
-            assertTrue("No data but message not shown", hasMessage);
+            assertTrue("No data but message NOT shown", hasMessage);
         }
     }
 
     @Then("Message text should contain {string}")
     public void message_text_should_contain(String text) {
         if (categoryPage.isNoCategoryMessageDisplayed()) {
-            assertTrue(categoryPage.getNoCategoryMessageText().contains(text));
+            assertTrue(
+                    categoryPage.getNoCategoryMessageText().contains(text)
+            );
         }
     }
 }

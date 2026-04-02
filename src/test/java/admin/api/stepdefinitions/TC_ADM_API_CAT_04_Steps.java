@@ -17,7 +17,7 @@ public class TC_ADM_API_CAT_04_Steps extends BaseApi {
     @And("Admin has an existing category to delete")
     public void admin_has_an_existing_category_to_delete() {
 
-        // Reuse category created in TC-02
+
         categoryIdToDelete = TC_ADM_API_CAT_02_Steps.createdCategoryId;
 
         assertTrue("Category ID should be greater than 0",

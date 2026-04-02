@@ -1,4 +1,4 @@
-@User
+@UserUi
 @TC_USER_UI_CAT_05
 Feature: Empty category list message
 
@@ -6,4 +6,4 @@ Feature: Empty category list message
     Given User is logged in and no categories exist in the system
     When User navigates to empty categories page
     Then No category found message should be displayed
-    And Message text should contain "No category"
+    And Message text should contain "No categories"

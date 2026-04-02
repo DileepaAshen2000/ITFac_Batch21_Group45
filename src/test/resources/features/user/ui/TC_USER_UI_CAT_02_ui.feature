@@ -1,4 +1,4 @@
-@User
+@UserUi
 @TC_USER_UI_CAT_02
 Feature: User cannot add category
 

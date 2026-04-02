@@ -1,4 +1,4 @@
-@User
+@UserUi
 @TC_USER_UI_CAT_04
 Feature: User pagination functionality
 
